@@ -1,12 +1,19 @@
 from django.db import models
-from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
 
-class BaseUser(AbstractBaseUser):
-    def get_short_name(self):
-        pass
+class BaseUser(AbstractUser):
+    is_student = models.BooleanField(default=False)
+    is_teacher = models.BooleanField(default=True)
 
-    def get_full_name(self):
-        pass
+
+class StudentProfile(models.Model):
+    user = models.ForeignKey(BaseUser)
+    periods = models.ManyToManyField('course.Period')
+
+
+class TeacherProfile(models.Model):
+    user = models.ForeignKey(BaseUser)
+    courses = models.ManyToManyField('course.Course')

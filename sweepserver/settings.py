@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'users',
+    'course',
 ]
 
 MIDDLEWARE = [
@@ -66,6 +69,15 @@ TEMPLATES = [
         },
     },
 ]
+
+AUTH_USER_MODEL = 'users.BaseUser'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+
+    ]
+}
 
 WSGI_APPLICATION = 'sweepserver.wsgi.application'
 
