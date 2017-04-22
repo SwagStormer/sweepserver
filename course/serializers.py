@@ -54,9 +54,9 @@ class AssignmentCreateSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
 class AssignmentSubmissionSerializer(serializers.ModelSerializer):
     assignment = AssignmentSerializer(read_only=True)
+    student = StudentProfileSerializer(read_only=True)
 
     class Meta:
         model = AssignmentSubmission

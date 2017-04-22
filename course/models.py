@@ -43,6 +43,7 @@ class AssignmentSubmission(models.Model):
     student = models.ForeignKey(StudentProfile)
     assignment = models.ForeignKey(Assignment)
     grade = models.IntegerField()
+    comments = models.TextField()
     submission_type = models.CharField(choices=SUBMISSION_TYPES, max_length=4)
     body = models.TextField(null=True)
     graded = models.BooleanField(default=False)

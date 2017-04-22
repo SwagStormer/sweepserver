@@ -31,3 +31,9 @@ class StudentProfileViewSet(viewsets.ModelViewSet):
     serializer_class = StudentProfileSerializer
     queryset = StudentProfile.objects.all()
 
+    def get_queryset(self):
+        queryset = StudentProfile.objects.all()
+        q = self.request.query_params.get
+        if q('search'):
+            queryset = queryset.filter(user__first_name__icontains=q('search'))
+        return queryset

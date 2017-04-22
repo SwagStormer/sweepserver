@@ -89,7 +89,7 @@ class AssignmentViewSet(viewsets.ModelViewSet):
             if q('course'):
                 queryset = queryset.filter(course=q('course'))
             if q('search'):
-                queryset = queryset.filter(name__icontains=q('search'))
+                queryset = queryset.filter(Q(name__icontains=q('search')) | Q(course__name__icontains=q('search')))
         return queryset
 
 
@@ -97,18 +97,17 @@ class AssignmentSubmissionViewSet(viewsets.ModelViewSet):
     serializer_class = AssignmentSubmissionSerializer
     queryset = AssignmentSubmission.objects.all()
 
-    detail_route(method=["POST"])
-
-    def grade(self, pk):
-        assignment = AssignmentSubmission.objects.select(id=pk)
-        pass
-
     def get_queryset(self):
         q = self.request.query_params.get
         queryset = AssignmentSubmission.objects.all()
         if q('graded'):
             graded = True if q('graded') == 'true' else False
+            print(graded)
             queryset = queryset.filter(graded=graded)
         if q('course'):
             queryset = queryset.filter(assignment__course=q('course'))
+        if q('student'):
+            queryset = queryset.filter(student=q('student'))
+        if q('search'):
+            queryset = queryset.filter(Q(assignment__name__icontains=q('search')) | Q(student__user__first_name__icontains=q('search')))
         return queryset
