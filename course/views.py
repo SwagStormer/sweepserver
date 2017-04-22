@@ -1,6 +1,7 @@
 from rest_framework import viewsets
+from rest_framework.decorators import detail_route
 from course.serializers import CourseSerializer, PeriodSerializer, AssignmentSerializer, AssignmentSubmissionSerializer, \
-    HourSerializer
+    HourSerializer, AssignmentCreateSerializer
 from course.models import Course, Period, Assignment, AssignmentSubmission, Hour
 from users.models import TeacherProfile, StudentProfile
 from django.db.models import Q
@@ -65,6 +66,13 @@ class AssignmentViewSet(viewsets.ModelViewSet):
     serializer_class = AssignmentSerializer
     queryset = Assignment.objects.all()
 
+    def get_serializer_class(self):
+        if self.request.method == "POST":
+            return AssignmentCreateSerializer
+        else:
+            return AssignmentSerializer
+
+
     def get_queryset(self):
         queryset = Assignment.objects.all()
         q = self.request.query_params.get
@@ -88,6 +96,12 @@ class AssignmentViewSet(viewsets.ModelViewSet):
 class AssignmentSubmissionViewSet(viewsets.ModelViewSet):
     serializer_class = AssignmentSubmissionSerializer
     queryset = AssignmentSubmission.objects.all()
+
+    detail_route(method=["POST"])
+
+    def grade(self, pk):
+        assignment = AssignmentSubmission.objects.select(id=pk)
+        pass
 
     def get_queryset(self):
         q = self.request.query_params.get

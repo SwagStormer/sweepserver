@@ -14,6 +14,7 @@ class CourseSerializer(serializers.ModelSerializer):
 
 
 class CourseNameSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(write_only=True)
 
     class Meta:
         model = Course
@@ -40,11 +41,18 @@ class PeriodSerializer(serializers.ModelSerializer):
 
 
 class AssignmentSerializer(serializers.ModelSerializer):
-    course = CourseNameSerializer(read_only=True)
+    course = CourseNameSerializer(read_only=True, allow_null=True)
 
     class Meta:
         model = Assignment
         fields = '__all__'
+
+
+class AssignmentCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Assignment
+        fields = '__all__'
+
 
 
 class AssignmentSubmissionSerializer(serializers.ModelSerializer):

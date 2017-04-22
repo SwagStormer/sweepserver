@@ -36,6 +36,7 @@ class Assignment(models.Model):
     description = models.TextField()
     out_of = models.IntegerField()
     course = models.ForeignKey(Course)
+    due_by = models.DateField()
 
 
 class AssignmentSubmission(models.Model):
