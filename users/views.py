@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 from users.serializers import UserReadSerializer, UserSerializer, TeacherProfileSerializer, StudentProfileSerializer
 from users.models import BaseUser, StudentProfile, TeacherProfile
+from rest_framework.exceptions import AuthenticationFailed
 
 # Create your views here.
 
@@ -14,6 +15,12 @@ class UserViewSet(viewsets.ModelViewSet):
             return UserSerializer
         return UserReadSerializer
 
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            return self.request.user
+        else:
+            raise AuthenticationFailed()
+
 
 class TeacherProfileViewSet(viewsets.ModelViewSet):
     serializer_class = TeacherProfileSerializer
@@ -23,3 +30,4 @@ class TeacherProfileViewSet(viewsets.ModelViewSet):
 class StudentProfileViewSet(viewsets.ModelViewSet):
     serializer_class = StudentProfileSerializer
     queryset = StudentProfile.objects.none()
+

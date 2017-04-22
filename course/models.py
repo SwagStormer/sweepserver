@@ -12,16 +12,24 @@ SUBMISSION_TYPES = (
 
 class Course(models.Model):
     name = models.TextField()
-    teachers = models.ManyToManyField(TeacherProfile)
-    students = models.ManyToManyField(StudentProfile)
+    teachers = models.ManyToManyField(TeacherProfile, blank=True)
+    students = models.ManyToManyField(StudentProfile, blank=True)
 
 
 class Period(models.Model):
+    name = models.TextField()
+    courses = models.ManyToManyField(Course)
+
+
+class Hour(models.Model):
+    name = models.TextField()
     course = models.ForeignKey(Course)
-    teacher = models.ManyToManyField(TeacherProfile)
+    period = models.ForeignKey(Period)
+    students = models.ManyToManyField(StudentProfile)
 
 
 class Assignment(models.Model):
+    name = models.TextField()
     description = models.TextField()
     out_of = models.IntegerField()
     course = models.ForeignKey(Course)
@@ -30,5 +38,6 @@ class Assignment(models.Model):
 class AssignmentSubmission(models.Model):
     student = models.ForeignKey(StudentProfile)
     assignment = models.ForeignKey(Assignment)
-    submission = models.CharField(choices=SUBMISSION_TYPES, max_length=4)
+    submission_type = models.CharField(choices=SUBMISSION_TYPES, max_length=4)
+    body = models.TextField(null=True)
 

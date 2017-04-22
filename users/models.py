@@ -11,9 +11,12 @@ class BaseUser(AbstractUser):
 
 class StudentProfile(models.Model):
     user = models.ForeignKey(BaseUser)
-    periods = models.ManyToManyField('course.Period')
+    hours = models.ManyToManyField('course.Hour', blank=True)
 
 
 class TeacherProfile(models.Model):
     user = models.ForeignKey(BaseUser)
-    courses = models.ManyToManyField('course.Course')
+    courses = models.ManyToManyField('course.Course', blank=True)
+
+    def __str__(self):
+        return self.user.username

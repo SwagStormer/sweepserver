@@ -18,7 +18,7 @@ from django.contrib import admin
 from rest_framework.authtoken import views
 from rest_framework import routers
 from users.views import UserViewSet, TeacherProfileViewSet, StudentProfileViewSet
-from course.views import CourseViewSet, PeriodViewSet, AssignmentViewSet, AssignmentSubmissionViewSet
+from course.views import CourseViewSet, PeriodViewSet, AssignmentViewSet, AssignmentSubmissionViewSet, HourViewSet
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -26,6 +26,7 @@ router.register(r'teachers', TeacherProfileViewSet)
 router.register(r'students', StudentProfileViewSet)
 router.register(r'courses', CourseViewSet)
 router.register(r'periods', PeriodViewSet)
+router.register(r'hours', HourViewSet)
 router.register(r'assignments', AssignmentViewSet)
 router.register(r'assignment_submissions', AssignmentSubmissionViewSet)
 
