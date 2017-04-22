@@ -13,10 +13,11 @@ class UserSerializer(serializers.ModelSerializer):
             email=validated_data["email"],
             first_name=validated_data["first_name"],
             last_name=validated_data["last_name"],
+            is_teacher=validated_data["is_teacher"],
+            is_student=validated_data["is_student"]
         )
         user.set_password(validated_data["password"])
         user.save()
-        print(user)
         if user.is_teacher:
             TeacherProfile(user=user).save()
         else:

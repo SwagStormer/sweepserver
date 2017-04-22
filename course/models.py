@@ -15,6 +15,9 @@ class Course(models.Model):
     teachers = models.ManyToManyField(TeacherProfile, blank=True)
     students = models.ManyToManyField(StudentProfile, blank=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Period(models.Model):
     name = models.TextField()
@@ -38,6 +41,8 @@ class Assignment(models.Model):
 class AssignmentSubmission(models.Model):
     student = models.ForeignKey(StudentProfile)
     assignment = models.ForeignKey(Assignment)
+    grade = models.IntegerField()
     submission_type = models.CharField(choices=SUBMISSION_TYPES, max_length=4)
     body = models.TextField(null=True)
+    graded = models.BooleanField(default=False)
 

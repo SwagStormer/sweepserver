@@ -29,5 +29,5 @@ class TeacherProfileViewSet(viewsets.ModelViewSet):
 
 class StudentProfileViewSet(viewsets.ModelViewSet):
     serializer_class = StudentProfileSerializer
-    queryset = StudentProfile.objects.none()
+    queryset = StudentProfile.objects.all()
 

@@ -25,7 +25,7 @@ SECRET_KEY = '5&ls4)wcwp0p7g)0v(nuc5jr#c5ni^g4&a(_+)stndj*o=9(dh'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.29.137', 'localhost', '160.7.242.7', '172.23.147.170']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
     'users',
     'course',
 ]
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -54,6 +56,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'sweepserver.urls'
+
+
 
 TEMPLATES = [
     {
@@ -79,6 +83,8 @@ REST_FRAMEWORK = {
 
     ]
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 WSGI_APPLICATION = 'sweepserver.wsgi.application'
 

@@ -14,18 +14,18 @@ class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
 
     def get_queryset(self):
+        queryset = Course.objects.all()
         q = self.request.query_params.get
         user = self.request.user
         if user.is_authenticated:
             is_teacher = True if user.is_teacher else False
             if is_teacher:
-                teacher = TeacherProfile.objects.filter(user=user)
-                queryset = Course.objects.filter(teachers__in=teacher)
+                teacher = TeacherProfile.objects.get(user=user)
+                Course.objects.filter(teachers=teacher)
             else:
                 student = StudentProfile.objects.filter(user=user)
                 queryset = Course.objects.filter(students__in=student)
             return queryset
-
         else:
             pass
 
@@ -61,33 +61,40 @@ class HourViewSet(viewsets.ModelViewSet):
             pass
 
 
-
 class AssignmentViewSet(viewsets.ModelViewSet):
     serializer_class = AssignmentSerializer
-    queryset = Assignment.objects.none()
+    queryset = Assignment.objects.all()
 
     def get_queryset(self):
+        queryset = Assignment.objects.all()
         q = self.request.query_params.get
         user = self.request.user
         if user.is_authenticated:
             is_teacher = True if user.is_teacher else False
             if is_teacher:
-                teacher = TeacherProfile.objects.filter(user=user)
-                courses = Course.objects.filter(teachers__in=teacher)
+                teacher = TeacherProfile.objects.get(user=user)
+                courses = Course.objects.filter(teachers=teacher)
             else:
-                student = StudentProfile.objects.filter(user=user)
-                courses = Course.objects.filter(students__in=student)
-            queryset = Assignment.objects.filter(course=courses)
-
+                student = StudentProfile.objects.get(user=user)
+                courses = Course.objects.filter(students=student)
+            queryset.filter(course=courses)
             if q('course'):
-                queryset.filter(course=q('course'))
+                queryset = queryset.filter(course=q('course'))
             if q('search'):
-                queryset.filter(name__icontains=q('search'))
-            return queryset
-        else:
-            pass
+                queryset = queryset.filter(name__icontains=q('search'))
+        return queryset
 
 
 class AssignmentSubmissionViewSet(viewsets.ModelViewSet):
     serializer_class = AssignmentSubmissionSerializer
     queryset = AssignmentSubmission.objects.all()
+
+    def get_queryset(self):
+        q = self.request.query_params.get
+        queryset = AssignmentSubmission.objects.all()
+        if q('graded'):
+            graded = True if q('graded') == 'true' else False
+            queryset = queryset.filter(graded=graded)
+        if q('course'):
+            queryset = queryset.filter(assignment__course=q('course'))
+        return queryset

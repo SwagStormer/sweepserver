@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from course.models import Course, Period, Assignment, AssignmentSubmission, Hour
+from users.models import StudentProfile
 from users.serializers import StudentProfileSerializer,  TeacherProfileSerializer
 
 
@@ -12,6 +13,13 @@ class CourseSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class CourseNameSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Course
+        exclude = ('teachers', 'students')
+
+
 class HourSerializer(serializers.ModelSerializer):
     students = StudentProfileSerializer(many=True, read_only=True)
 
@@ -21,8 +29,7 @@ class HourSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         hour = Hour(**validated_data)
-        for student in hour.students:
-            Course.objects.filter(hour.course).first().students.add(student)
+        hour.save()
         return hour
 
 
@@ -33,12 +40,16 @@ class PeriodSerializer(serializers.ModelSerializer):
 
 
 class AssignmentSerializer(serializers.ModelSerializer):
+    course = CourseNameSerializer(read_only=True)
+
     class Meta:
         model = Assignment
         fields = '__all__'
 
 
 class AssignmentSubmissionSerializer(serializers.ModelSerializer):
+    assignment = AssignmentSerializer(read_only=True)
+
     class Meta:
         model = AssignmentSubmission
         fields = '__all__'
