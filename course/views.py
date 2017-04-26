@@ -110,4 +110,6 @@ class AssignmentSubmissionViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(student=q('student'))
         if q('search'):
             queryset = queryset.filter(Q(assignment__name__icontains=q('search')) | Q(student__user__first_name__icontains=q('search')))
+        if q('assignment'):
+            queryset = queryset.filter(assignment=q('assignment'))
         return queryset

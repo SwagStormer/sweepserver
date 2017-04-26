@@ -5,8 +5,6 @@ from users.serializers import StudentProfileSerializer,  TeacherProfileSerialize
 
 
 class CourseSerializer(serializers.ModelSerializer):
-    teachers = TeacherProfileSerializer(many=True, read_only=True)
-    students = StudentProfileSerializer(many=True, read_only=True)
 
     class Meta:
         model = Course
