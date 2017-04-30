@@ -15,10 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from rest_framework.authtoken import views
 from rest_framework import routers
-from users.views import UserViewSet, TeacherProfileViewSet, StudentProfileViewSet
-from course.views import CourseViewSet, PeriodViewSet, AssignmentViewSet, AssignmentSubmissionViewSet, HourViewSet
+from users.views import UserViewSet, TeacherProfileViewSet, StudentProfileViewSet, token_auth_thing
+from course.views import CourseViewSet, PeriodViewSet, AssignmentViewSet, AssignmentSubmissionViewSet, HourViewSet, \
+    CourseGradeViewSet, GradingScaleViewSet, LetterGradeViewSet, GradingCategoryViewSet
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -29,10 +29,14 @@ router.register(r'periods', PeriodViewSet)
 router.register(r'hours', HourViewSet)
 router.register(r'assignments', AssignmentViewSet)
 router.register(r'assignment_submissions', AssignmentSubmissionViewSet)
+router.register(r'grade_categories', GradingCategoryViewSet)
+router.register(r'course_grades', CourseGradeViewSet)
+router.register(r'course_scale', GradingScaleViewSet)
+router.register(r'letter_grade', LetterGradeViewSet)
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'api-token-auth/', views.obtain_auth_token),
+    url(r'api-token-auth/', token_auth_thing),
     url(r'api/', include(router.urls))
 ]

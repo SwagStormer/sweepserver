@@ -31,16 +31,16 @@ class HourFilterBackend(BaseFilterBackend):
             is_teacher = True if user.is_teacher else False
             if is_teacher:
                 teacher = TeacherProfile.objects.filter(user=user)
-                courses = Course.objects.filter(teachers__in=teacher)
+                courses = Course.objects.filter(teachers=teacher)
             else:
                 student = StudentProfile.objects.filter(user=user)
                 courses = Course.objects.filter(students__in=student)
-            queryset = Hour.objects.filter(course=courses)
-
+            queryset = Hour.objects.filter(course__in=courses)
+            print(queryset)
             if q('course'):
-                queryset.filter(course=q('course'))
+                queryset = queryset.filter(course=q('course'))
             if q('search'):
-                queryset.filter(name__icontains=q('search'))
+                queryset = queryset.filter(name__icontains=q('search'))
             return queryset
         else:
             pass
@@ -65,6 +65,7 @@ class AssignmentFilterBackend(BaseFilterBackend):
                 queryset = queryset.filter(course=q('course'))
             if q('search'):
                 queryset = queryset.filter(Q(name__icontains=q('search')) | Q(course__name__icontains=q('search')))
+            queryset = queryset.order_by('due_by')
         return queryset
 
 

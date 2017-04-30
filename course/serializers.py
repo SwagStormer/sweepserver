@@ -1,26 +1,17 @@
 from rest_framework import serializers
-from course.models import Course, Period, Assignment, AssignmentSubmission, Hour
-from users.models import StudentProfile
-from users.serializers import StudentProfileSerializer,  TeacherProfileSerializer
+from course.models import Course, Period, Assignment, AssignmentSubmission, \
+    Hour, GradingScale, CourseGrade, LetterGrade, GradingCategory
+from users.serializers import StudentProfileSerializer
 
 
 class CourseSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Course
         fields = '__all__'
 
 
-class CourseNameSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(write_only=True)
-
-    class Meta:
-        model = Course
-        exclude = ('teachers', 'students')
-
 
 class HourSerializer(serializers.ModelSerializer):
-    students = StudentProfileSerializer(many=True, read_only=True)
 
     class Meta:
         model = Hour
@@ -39,7 +30,6 @@ class PeriodSerializer(serializers.ModelSerializer):
 
 
 class AssignmentSerializer(serializers.ModelSerializer):
-    course = CourseNameSerializer(read_only=True, allow_null=True)
 
     class Meta:
         model = Assignment
@@ -58,4 +48,28 @@ class AssignmentSubmissionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AssignmentSubmission
+        fields = '__all__'
+
+
+class GradingScaleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GradingScale
+        fields = '__all__'
+
+
+class CourseGradeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CourseGrade
+        fields = '__all__'
+
+
+class LetterGradeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LetterGrade
+        fields = '__all__'
+
+
+class GradingCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GradingCategory
         fields = '__all__'
