@@ -1,9 +1,9 @@
 from rest_framework import viewsets
 from course.serializers import CourseSerializer, PeriodSerializer, AssignmentSerializer, AssignmentSubmissionSerializer, \
-    HourSerializer, AssignmentCreateSerializer, GradingScaleSerializer, CourseGradeSerializer, \
+    HourSerializer, AssignmentCreateSerializer, CourseGradeSerializer, \
     LetterGradeSerializer, GradingCategorySerializer
 from course.models import Course, Period, Assignment, AssignmentSubmission, Hour, \
-    CourseGrade, GradingScale, LetterGrade, GradingCategory
+    CourseGrade, LetterGrade, GradingCategory
 from course.filters import CourseFilterBackend, HourFilterBackend, AssignmentFilterBackend, \
     AssignmentSubmissionFilterBackend
 # Create your views here.
@@ -54,11 +54,6 @@ class CourseGradeViewSet(viewsets.ModelViewSet):
 class LetterGradeViewSet(viewsets.ModelViewSet):
     serializer_class = LetterGradeSerializer
     queryset = LetterGrade.objects.all()
-
-
-class GradingScaleViewSet(viewsets.ModelViewSet):
-    serializer_class = GradingScaleSerializer
-    queryset = GradingScale.objects.all()
 
 
 class GradingCategoryViewSet(viewsets.ModelViewSet):

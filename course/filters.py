@@ -36,7 +36,6 @@ class HourFilterBackend(BaseFilterBackend):
                 student = StudentProfile.objects.filter(user=user)
                 courses = Course.objects.filter(students__in=student)
             queryset = Hour.objects.filter(course__in=courses)
-            print(queryset)
             if q('course'):
                 queryset = queryset.filter(course=q('course'))
             if q('search'):
@@ -88,3 +87,5 @@ class AssignmentSubmissionFilterBackend(BaseFilterBackend):
         if q('assignment'):
             queryset = queryset.filter(assignment=q('assignment'))
         return queryset
+
+

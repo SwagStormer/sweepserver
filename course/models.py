@@ -59,13 +59,20 @@ class Hour(models.Model):
 
 class GradingCategory(models.Model):
     course = models.ForeignKey(Course)
+    name = models.TextField(max_length=50)
     weight = models.IntegerField()
+
+    def __str__(self):
+        return "{0}: {1} - {2}".format(self.course.name, self.name, self.weight)
 
 
 class Announcement(models.Model):
     course = models.ForeignKey(Course)
     pinned = models.BooleanField(default=False)
     announcement = models.TextField(max_length=140)
+
+    def __str__(self):
+        return self.announcement[1:20]
 
 
 class Assignment(models.Model):
@@ -75,6 +82,9 @@ class Assignment(models.Model):
     out_of = models.IntegerField()
     course = models.ForeignKey(Course)
     due_by = models.DateField()
+
+    def __str__(self):
+        return self.name
 
 
 class AssignmentSubmission(models.Model):
@@ -86,20 +96,26 @@ class AssignmentSubmission(models.Model):
     body = models.TextField(null=True)
     graded = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.student.name
+
 
 # Mostly Teacher stuff
-
-class GradingScale(models.Model):
-    course = models.ForeignKey(Course)
 
 
 class LetterGrade(models.Model):
     letter = models.CharField(choices=LETTER_GRADES, max_length=2)
     percent = models.IntegerField()
-    course = models.ForeignKey(GradingScale)
+    course = models.ForeignKey(Course)
+
+    def __str__(self):
+        return "{0} - {1}".format(self.letter, self.percent)
 
 
 class CourseGrade(models.Model):
     student = models.ForeignKey(StudentProfile)
     course = models.ForeignKey(Course)
     percent = models.IntegerField()
+
+    def __str__(self):
+        return "{0}: {1} {2}%".format(self.course.name, self.student.name, self.percent)

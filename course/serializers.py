@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from course.models import Course, Period, Assignment, AssignmentSubmission, \
-    Hour, GradingScale, CourseGrade, LetterGrade, GradingCategory
+    Hour, CourseGrade, LetterGrade, GradingCategory
 from users.serializers import StudentProfileSerializer
 
 
@@ -8,7 +8,6 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = '__all__'
-
 
 
 class HourSerializer(serializers.ModelSerializer):
@@ -52,21 +51,15 @@ class AssignmentSubmissionSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class GradingScaleSerializer(serializers.ModelSerializer):
+class LetterGradeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = GradingScale
+        model = LetterGrade
         fields = '__all__'
 
 
 class CourseGradeSerializer(serializers.ModelSerializer):
     class Meta:
         model = CourseGrade
-        fields = '__all__'
-
-
-class LetterGradeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = LetterGrade
         fields = '__all__'
 
 

@@ -18,7 +18,7 @@ from django.contrib import admin
 from rest_framework import routers
 from users.views import UserViewSet, TeacherProfileViewSet, StudentProfileViewSet, token_auth_thing
 from course.views import CourseViewSet, PeriodViewSet, AssignmentViewSet, AssignmentSubmissionViewSet, HourViewSet, \
-    CourseGradeViewSet, GradingScaleViewSet, LetterGradeViewSet, GradingCategoryViewSet
+    CourseGradeViewSet, LetterGradeViewSet, GradingCategoryViewSet
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -31,8 +31,7 @@ router.register(r'assignments', AssignmentViewSet)
 router.register(r'assignment_submissions', AssignmentSubmissionViewSet)
 router.register(r'grade_categories', GradingCategoryViewSet)
 router.register(r'course_grades', CourseGradeViewSet)
-router.register(r'course_scale', GradingScaleViewSet)
-router.register(r'letter_grade', LetterGradeViewSet)
+router.register(r'letter_grades', LetterGradeViewSet)
 
 
 urlpatterns = [
