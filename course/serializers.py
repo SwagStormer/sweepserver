@@ -30,6 +30,7 @@ class PeriodSerializer(serializers.ModelSerializer):
 
 
 class AssignmentSerializer(serializers.ModelSerializer):
+    course = CourseSerializer(read_only=True)
 
     class Meta:
         model = Assignment
