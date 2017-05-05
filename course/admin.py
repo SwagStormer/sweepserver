@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.contrib import admin
 
 from course.models import Course, Period, Assignment, AssignmentSubmission, \
-    Hour, CourseGrade, LetterGrade, GradingCategory
+    Hour, CourseGrade, LetterGrade, GradingCategory, Announcement
 
 
 class CourseAdmin(admin.ModelAdmin):
@@ -46,3 +46,8 @@ admin.site.register(LetterGrade, LetterGradeAdmin)
 class GradingCategoryAdmin(admin.ModelAdmin):
     pass
 admin.site.register(GradingCategory, GradingCategoryAdmin)
+
+
+class AnnouncementAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Announcement, AnnouncementAdmin)
