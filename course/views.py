@@ -3,7 +3,7 @@ from rest_framework.decorators import detail_route
 from django.http import JsonResponse
 from course.serializers import CourseSerializer, PeriodSerializer, AssignmentSerializer, AssignmentSubmissionSerializer, \
     HourSerializer, AssignmentCreateSerializer, CourseGradeSerializer, \
-    LetterGradeSerializer, GradingCategorySerializer, AnnouncementSerializer, CourseWithGradeSerializer
+    LetterGradeSerializer, GradingCategorySerializer, AnnouncementSerializer
 from course.models import Course, Period, Assignment, AssignmentSubmission, Hour, \
     CourseGrade, LetterGrade, GradingCategory, Announcement
 from users.models import StudentProfile

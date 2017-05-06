@@ -17,17 +17,6 @@ class CourseSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class CourseWithGradeSerializer(serializers.ModelSerializer):
-    courses = serializers.SerializerMethodField('get_filtered_data')
-
-    def get_filtered_data(self, obj):
-        user = self.context.get('request').user
-        course_grades = CourseGrade.objects.filter(student__user=user).values()
-        return CourseGradeSerializer(course_grades, read_only=True).data
-
-    class Meta:
-        model = Course
-        fields = '__all__'
 
 
 class HourSerializer(serializers.ModelSerializer):
