@@ -97,7 +97,7 @@ class AssignmentSubmission(models.Model):
     graded = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.student.name
+        return self.student.user.first_name
 
 
 # Mostly Teacher stuff
@@ -114,8 +114,8 @@ class LetterGrade(models.Model):
 
 class CourseGrade(models.Model):
     student = models.ForeignKey(StudentProfile)
-    course = models.ForeignKey(Course)
+    course = models.ForeignKey(Course, related_name='course_grade')
     percent = models.IntegerField()
 
     def __str__(self):
-        return "{0}: {1} {2}%".format(self.course.name, self.student.name, self.percent)
+        return "{0}: {1} {2} - {3}%".format(self.course.name, self.student.user.first_name, self.student.user.last_name, self.percent)
