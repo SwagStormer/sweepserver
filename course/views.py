@@ -2,10 +2,10 @@ from rest_framework import viewsets
 from rest_framework.decorators import detail_route
 from django.http import JsonResponse
 from course.serializers import CourseSerializer, PeriodSerializer, AssignmentSerializer, AssignmentSubmissionSerializer, \
-    HourSerializer, AssignmentCreateSerializer, CourseGradeSerializer, \
-    LetterGradeSerializer, GradingCategorySerializer, AnnouncementSerializer
+    HourSerializer, CourseGradeSerializer, \
+    LetterGradeSerializer, GradingCategorySerializer, AnnouncementSerializer, TermSerializer
 from course.models import Course, Period, Assignment, AssignmentSubmission, Hour, \
-    CourseGrade, LetterGrade, GradingCategory, Announcement
+    CourseGrade, LetterGrade, GradingCategory, Announcement, Term
 from users.models import StudentProfile
 from course.filters import CourseFilterBackend, HourFilterBackend, AssignmentFilterBackend, \
     AssignmentSubmissionFilterBackend
@@ -58,6 +58,11 @@ class HourViewSet(viewsets.ModelViewSet):
     filter_backends = [
         HourFilterBackend
     ]
+
+
+class TermViewSet(viewsets.ModelViewSet):
+    serializer_class = TermSerializer
+    queryset = Term.objects.all()
 
 
 class AnnouncementViewSet(viewsets.ModelViewSet):

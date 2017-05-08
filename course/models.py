@@ -9,7 +9,6 @@ SUBMISSION_TYPES = (
     ('TEXT', 'text'),
 )
 
-
 LETTER_GRADES = (
     ('A', 'A'),
     ('A-', 'A-'),
@@ -54,6 +53,12 @@ class Hour(models.Model):
         return "{0}, {1}".format(self.name, self.course.name)
 
 
+class Term(models.Model):
+    name = models.TextField()
+    start_date = models.DateField()
+    end_date = models.DateField()
+
+
 # Things that Students and Teachers probably care about
 
 
@@ -70,12 +75,14 @@ class Announcement(models.Model):
     course = models.ForeignKey(Course)
     pinned = models.BooleanField(default=False)
     announcement = models.TextField(max_length=140)
+    shown = models.BooleanField(default=True)
 
     def __str__(self):
         return self.announcement[1:20]
 
 
 class Assignment(models.Model):
+    term = models.ForeignKey(Term, null=True)
     category = models.ForeignKey(GradingCategory, null=True)
     name = models.TextField()
     description = models.TextField()
@@ -114,8 +121,10 @@ class LetterGrade(models.Model):
 
 class CourseGrade(models.Model):
     student = models.ForeignKey(StudentProfile)
+    term = models.ForeignKey(Term)
     course = models.ForeignKey(Course, related_name='course_grade')
     percent = models.IntegerField()
 
     def __str__(self):
-        return "{0}: {1} {2} - {3}%".format(self.course.name, self.student.user.first_name, self.student.user.last_name, self.percent)
+        return "{0}: {1} {2} - {3}%".format(self.course.name, self.student.user.first_name, self.student.user.last_name,
+                                            self.percent)
